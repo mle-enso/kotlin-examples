@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    aws:
+      region:
+        static: eu-central-1
+offer-attribute-assignor:
+  text-matching:
+    max-terms: 200
