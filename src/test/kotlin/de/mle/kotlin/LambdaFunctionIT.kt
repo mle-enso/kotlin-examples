@@ -24,7 +24,7 @@ class LambdaFunctionIT(
 ) {
     companion object {
         @Container
-        val localStack = LocalStackContainer(DockerImageName.parse("localstack/localstack:3.1"))
+        val localStack = LocalStackContainer(DockerImageName.parse("localstack/localstack:latest"))
 
         @JvmStatic
         @DynamicPropertySource
@@ -45,12 +45,12 @@ class LambdaFunctionIT(
         assertThat(list.buckets().first().name()).isEqualTo("mybucket")
 
         // when
-        val result = lambdaFunction.refresh(s3Client)("input header value")
-        assertThat(result).isEqualTo("Started Lambda function with header 'input header value'")
+        val result = lambdaFunction.doSomething(s3Client)("input value")
+        assertThat(result).isEqualTo("Started Lambda function with header 'input value'")
 
         // then
         val getRequest = GetObjectRequest.builder().bucket("mybucket").key("object-key").build()
         val s3Content = String(s3Client.getObject(getRequest).readAllBytes())
-        assertThat(s3Content).isEqualTo("input header value")
+        assertThat(s3Content).isEqualTo("input value")
     }
 }
