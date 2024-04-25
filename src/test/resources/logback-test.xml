@@ -3,12 +3,21 @@
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{45} - %msg%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} traceId=%X{traceId:-NONE} spanId=%X{spanId:-NONE} [%thread] %-5level %logger{45} - %msg%n</pattern>
 		</encoder>
 	</appender>
 
+	<appender name="IN_MEMORY" class="de.idealo.orca.cataloging.logging.MemoryAppender"/>
 
 	<logger name="org.testcontainers" level="DEBUG" />
+	<logger name="de.mle" level="INFO" />
+
+	<logger name="de.mle.kotlin.Service" level="INFO">
+		<appender-ref ref="IN_MEMORY" />
+	</logger>
+	<logger name="de.mle.kotlin.SubService" level="INFO">
+		<appender-ref ref="IN_MEMORY" />
+	</logger>
 
 	<root level="WARN">
 		<appender-ref ref="CONSOLE" />
